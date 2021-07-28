@@ -10,6 +10,15 @@ body {
     justify-content: center;
 }
 
+#info {
+    display: flex;
+    flex-direction: row;
+    width: 50%;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 4em;
+}
+
 #board {
     width: 300px;
     height: 300px;
@@ -29,6 +38,10 @@ body {
     padding: 0;
     margin: 0;
     font-size: 60px;
+}
+
+.squares:hover {
+    background-color: gainsboro;
 }
 
 #square0 {

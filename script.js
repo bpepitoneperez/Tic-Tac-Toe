@@ -12,35 +12,35 @@ const gameBoard = (() => {
     const draw = (index, symbol) => {
         if (board[index] == null) {
             board[index] = symbol;
-            playerOnesTurn = !playerOnesTurn;
             displayController.update(index, symbol);
             checkWinner();
+            playerOnesTurn = !playerOnesTurn;
         }
     }
     const checkWinner = () => {
         if (board[0] != null & board[0] == board[1] && board[0] == board[2]) {
-            console.log("Row 1 won")
+            displayController.winner();
         }
         else if (board[3] != null & board[3] == board[4] && board[3] == board[5]) {
-            console.log("Row 2 won")
+            displayController.winner();
         }
         else if (board[6] != null & board[6] == board[7] && board[6] == board[8]) {
-            console.log("Row 3 won")
+            displayController.winner();
         }
         else if (board[0] != null & board[0] == board[3] && board[0] == board[6]) {
-            console.log("Col 1 won")
+            displayController.winner();
         }
         else if (board[1] != null & board[1] == board[4] && board[1] == board[7]) {
-            console.log("Col 2 won")
+            displayController.winner();
         }
         else if (board[2] != null & board[2] == board[5] && board[2] == board[8]) {
-            console.log("Col 3 won")
+            displayController.winner();
         }
         else if (board[6] != null & board[6] == board[4] && board[6] == board[2]) {
-            console.log("pos diagonal won")
+            displayController.winner();
         }
         else if (board[0] != null & board[0] == board[4] && board[0] == board[8]) {
-            console.log("neg diagonal won")
+            displayController.winner();
         }
         else {
             checkDraw();
@@ -54,7 +54,7 @@ const gameBoard = (() => {
             }
         }
         if (draw) {
-            console.log("A draw");
+            displayController.draw();
         }
     }
     return {
@@ -64,13 +64,16 @@ const gameBoard = (() => {
 })();
 
 const displayController = (() => {
+    let results = document.getElementById('results');
+    let first = document.getElementById("first");
+    let second = document.getElementById("second");
     const create = () => {
+        results.textContent = "";
         const display = document.getElementById('board');
         for (let i = 0; i < 9; i++) {
             let square = document.createElement('div');
             square.setAttribute('class', 'squares');
             square.setAttribute('id', ("square" + i));
-            square.textContent = "";
             square.addEventListener('click', function() {
                 playRound(i);
             });
@@ -92,15 +95,31 @@ const displayController = (() => {
         current.appendChild(image);
     }
 
+    const winner = () => {
+        if (playerOnesTurn) {
+            results.textContent = "Player 1 has won!";
+        }
+        else {
+            results.textContent = "Player 2 has won!";
+        }
+    }
+
+    const draw = () => {
+        results.textContent = "This game was a draw.";
+    }
+
     return {
         create,
         update,
+        winner,
+        draw,
     }
     
 })();
 
 function playRound (index) {
     if (playerOnesTurn) {
+
         gameBoard.draw(index, player1.symbol);
     }
     else {
