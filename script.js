@@ -80,7 +80,16 @@ const displayController = (() => {
     
     const update = (id, symbol) => {
         let current = document.getElementById(("square" + id));
-        current.textContent = (symbol);
+        let image = document.createElement('img');
+        if (symbol == "x") {
+            image.src = "x.png";
+        }
+        else {
+            image.src = "o.png";
+            image.style.width = "42px";
+            image.style.height = '42px';
+        }
+        current.appendChild(image);
     }
 
     return {
