@@ -14,11 +14,33 @@ const gameBoard = (() => {
             board[index] = symbol;
             playerOnesTurn = !playerOnesTurn;
             displayController.update(index, symbol);
+            checkWinner();
         }
     }
     const checkWinner = () => {
-        if (board[0] == board[1] && board[0] == board[2]) {
-            console.log("someone won.")
+        if (board[0] != null & board[0] == board[1] && board[0] == board[2]) {
+            console.log("Row 1 won")
+        }
+        else if (board[3] != null & board[3] == board[4] && board[3] == board[5]) {
+            console.log("Row 2 won")
+        }
+        else if (board[6] != null & board[6] == board[7] && board[6] == board[8]) {
+            console.log("Row 3 won")
+        }
+        else if (board[0] != null & board[0] == board[3] && board[0] == board[6]) {
+            console.log("Col 1 won")
+        }
+        else if (board[1] != null & board[1] == board[4] && board[1] == board[7]) {
+            console.log("Col 2 won")
+        }
+        else if (board[2] != null & board[2] == board[5] && board[2] == board[8]) {
+            console.log("Col 3 won")
+        }
+        else if (board[6] != null & board[6] == board[4] && board[6] == board[2]) {
+            console.log("pos diagonal won")
+        }
+        else if (board[0] != null & board[0] == board[4] && board[0] == board[8]) {
+            console.log("neg diagonal won")
         }
     }
     return {
@@ -29,30 +51,22 @@ const gameBoard = (() => {
 
 const displayController = (() => {
     const create = () => {
-        console.log("Creating board");
         const display = document.getElementById('board');
-        console.log(display);
         for (let i = 0; i < 9; i++) {
             let square = document.createElement('div');
-            console.log(square);
             square.setAttribute('class', 'squares');
-            console.log("Current id is: square" + i);
             square.setAttribute('id', ("square" + i));
             square.textContent = "";
             square.addEventListener('click', function() {
                 playRound(i);
             });
-            console.log(square);
             display.appendChild(square);
         }
     }
     
     const update = (id, symbol) => {
-        console.log("Id in update is: " + id);
-        console.log("The id to get should be: square" + id);
         let current = document.getElementById(("square" + id));
         current.textContent = (symbol);
-        console.log(current);
     }
 
     return {
@@ -63,7 +77,6 @@ const displayController = (() => {
 })();
 
 function playRound (index) {
-    console.log(index + " was clicked");
     if (playerOnesTurn) {
         gameBoard.draw(index, player1.symbol);
     }
