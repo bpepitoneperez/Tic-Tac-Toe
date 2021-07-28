@@ -1,4 +1,7 @@
 let playerOnesTurn = true;
+let gameOver = false;
+let gameStart = false;
+
 
 const Player = (type, symbol) => {
     return {type, symbol}
@@ -8,13 +11,16 @@ player1 = Player('human', 'x');
 player2 = Player('human', 'o');
 
 const gameBoard = (() => {
-    const board = [];
+    let board = [];
     const draw = (index, symbol) => {
-        if (board[index] == null) {
+        if (board[index] == null && !gameOver) {
             board[index] = symbol;
             displayController.update(index, symbol);
             checkWinner();
             playerOnesTurn = !playerOnesTurn;
+            if(!gameOver) {
+                displayController.changeTurn();
+            }
         }
     }
     const checkWinner = () => {
@@ -43,23 +49,27 @@ const gameBoard = (() => {
             displayController.winner();
         }
         else {
-            checkDraw();
+            checkTie();
         }
     }
-    const checkDraw = () => {
-        let draw = true;
+    const checkTie = () => {
+        let tie = true;
         for (let i = 0; i < 9; i++) {
             if (board[i] == null) {
-                draw = false;
+                tie = false;
             }
         }
-        if (draw) {
-            displayController.draw();
+        if (tie) {
+            displayController.tie();
         }
+    }
+    const clear = () => {
+        board = [];
     }
     return {
         board,
         draw,
+        clear,
     };
 })();
 
@@ -68,21 +78,42 @@ const displayController = (() => {
     let first = document.getElementById("first");
     let second = document.getElementById("second");
     const create = () => {
-        results.textContent = "";
         const display = document.getElementById('board');
+        while (display.firstChild) {
+            display.removeChild(display.firstChild);
+        }
         for (let i = 0; i < 9; i++) {
             let square = document.createElement('div');
             square.setAttribute('class', 'squares');
             square.setAttribute('id', ("square" + i));
             square.addEventListener('click', function() {
-                playRound(i);
+                if (gameStart) {
+                    playRound(i);
+                }
             });
             display.appendChild(square);
         }
     }
+
+    const newGame = () => {
+        results.textContent = "";
+        gameOver = false;
+        gameStart = true;
+        gameBoard.clear();
+        create();
+        if (playerOnesTurn) {
+            first.style.color = 'red';
+            second.style.color = 'black';
+        }
+        else {
+            first.style.color = 'black';
+            second.style.color = 'red';
+        }
+        
+    }
     
     const update = (id, symbol) => {
-        let current = document.getElementById(("square" + id));
+        let currentSquare = document.getElementById(("square" + id));
         let image = document.createElement('img');
         if (symbol == "x") {
             image.src = "x.png";
@@ -92,7 +123,8 @@ const displayController = (() => {
             image.style.width = "42px";
             image.style.height = '42px';
         }
-        current.appendChild(image);
+        currentSquare.appendChild(image);
+        
     }
 
     const winner = () => {
@@ -102,31 +134,57 @@ const displayController = (() => {
         else {
             results.textContent = "Player 2 has won!";
         }
+        gameOver = true;
+        first.style.color = 'black';
+        second.style.color = 'black';
     }
 
-    const draw = () => {
+    const tie = () => {
+        gameOver = true;
         results.textContent = "This game was a draw.";
+        first.style.color = 'black';
+        second.style.color = 'black';
+    }
+
+    const changeTurn = () => {
+        if (playerOnesTurn) {
+            first.style.color = 'red';
+            second.style.color = 'black';
+        }
+        else {
+            first.style.color = 'black';
+            second.style.color = 'red';
+        }
     }
 
     return {
         create,
         update,
         winner,
-        draw,
+        tie,
+        changeTurn,
+        newGame,
     }
     
 })();
 
 function playRound (index) {
+    let first = document.getElementById("first");
+    let second = document.getElementById("second");
+    
     if (playerOnesTurn) {
-
+        first.style.color = 'red';
+        second.style.color = 'black';
         gameBoard.draw(index, player1.symbol);
     }
     else {
+        first.style.color = 'black';
+        second.style.color = 'red';
         gameBoard.draw(index, player2.symbol);
     }
 
 }
 
 displayController.create();
-
+const playButton = document.getElementById('play');
+playButton.addEventListener('click', displayController.newGame);
