@@ -42,6 +42,20 @@ const gameBoard = (() => {
         else if (board[0] != null & board[0] == board[4] && board[0] == board[8]) {
             console.log("neg diagonal won")
         }
+        else {
+            checkDraw();
+        }
+    }
+    const checkDraw = () => {
+        let draw = true;
+        for (let i = 0; i < 9; i++) {
+            if (board[i] == null) {
+                draw = false;
+            }
+        }
+        if (draw) {
+            console.log("A draw");
+        }
     }
     return {
         board,
