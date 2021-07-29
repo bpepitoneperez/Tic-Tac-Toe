@@ -2,13 +2,74 @@ let playerOnesTurn = true;
 let gameOver = false;
 let gameStart = false;
 
-
-const Player = (type, symbol) => {
-    return {type, symbol}
+const Player = (type, symbol, name) => {
+    let difficulty = 'Normal';
+    let wins = 0;
+    return {type, symbol, wins, difficulty, name}
 };
+const p1Name = document.getElementById('p1');
+const p2Name = document.getElementById('p2');
+player1 = Player('human', "x", p1Name.value);
+player2 = Player('human', "o", p2Name.value);
+p1Name.addEventListener('change', function() {
+    player1.name = p1Name.value;
+});
+p2Name.addEventListener('change', function() {
+    player2.name = p2Name.value;
+});
 
-player1 = Player('human', 'x');
-player2 = Player('human', 'o');
+const buttonDiv1 = document.getElementById('button-div1');
+const p1Type = document.getElementById('type1');
+p1Type.addEventListener('click', function() {
+    if (player1.type == 'human') {
+        player1.type = 'cpu';
+        p1Type.textContent = 'Human';
+        p1Diff = document.createElement('button');
+        buttonDiv1.appendChild(p1Diff);
+        p1Diff.textContent = player1.difficulty;
+        p1Diff.addEventListener('click', function() {
+            if (player1.difficulty == 'Normal') {
+                player1.difficulty = 'Impossible';
+            }
+            else {
+                player1.difficulty = 'Normal';
+            }
+            p1Diff.textContent = player1.difficulty;
+        });
+    }
+    else {
+        player1.type = 'human';
+        p1Type.textContent = 'CPU';
+        buttonDiv1.removeChild(p1Diff);
+    }
+});
+const buttonDiv2 = document.getElementById('button-div2');
+const p2Type = document.getElementById('type2');
+p2Type.addEventListener('click', function() {
+    if (player2.type == 'human') {
+        player2.type = 'cpu';
+        p2Type.textContent = 'Human';
+        p2Diff = document.createElement('button');
+        buttonDiv2.appendChild(p2Diff);
+        p2Diff.textContent = player2.difficulty;
+        p2Diff.addEventListener('click', function() {
+            if (player2.difficulty == 'Normal') {
+                player2.difficulty = 'Impossible';
+            }
+            else {
+                player2.difficulty = 'Normal';
+            }
+            p2Diff.textContent = player2.difficulty;
+        });
+    }
+    else {
+        player1.type = 'human';
+        p1Type.textContent = 'CPU';
+        buttonDiv1.removeChild(p1Diff);
+    }
+});
+
+
 
 const gameBoard = (() => {
     let board = [];
@@ -20,8 +81,31 @@ const gameBoard = (() => {
             playerOnesTurn = !playerOnesTurn;
             if(!gameOver) {
                 displayController.changeTurn();
+                if (playerOnesTurn && player1.type == 'cpu') {
+                    if (player1.difficulty == 'Normal') {
+                        min = Math.ceil(0);
+                        max = Math.floor(9);
+                        let randomSpot = Math.floor(Math.random() * (max - min) + min);
+                        while (board[randomSpot] != null) {
+                            randomSpot = Math.floor(Math.random() * (max - min) + min);
+                        }
+                        setTimeout(() => {playRound(randomSpot);}, 1000);
+                    }
+                }
+                else if (!playerOnesTurn && player2.type == 'cpu') {
+                    if (player2.difficulty == 'Normal') {
+                        min = Math.ceil(0);
+                        max = Math.floor(9);
+                        let randomSpot = Math.floor(Math.random() * (max - min) + min);
+                        while (board[randomSpot] != null) {
+                            randomSpot = Math.floor(Math.random() * (max - min) + min);
+                        }
+                        setTimeout(() => {playRound(randomSpot);}, 1000);
+                    }
+                }
             }
         }
+
     }
     const checkWinner = () => {
         if (board[0] != null & board[0] == board[1] && board[0] == board[2]) {
@@ -74,9 +158,12 @@ const gameBoard = (() => {
 })();
 
 const displayController = (() => {
-    let results = document.getElementById('results');
-    let first = document.getElementById("first");
-    let second = document.getElementById("second");
+    const results = document.getElementById('results');
+    const info1 = document.getElementById('info1');
+    const info2 = document.getElementById('info2');
+    const score1 = document.getElementById('score-div1');
+    const score2 = document.getElementById('score-div2');
+
     const create = () => {
         const display = document.getElementById('board');
         while (display.firstChild) {
@@ -96,18 +183,34 @@ const displayController = (() => {
     }
 
     const newGame = () => {
-        results.textContent = "";
         gameOver = false;
         gameStart = true;
+        results.textContent = "";
         gameBoard.clear();
         create();
         if (playerOnesTurn) {
-            first.style.color = 'red';
-            second.style.color = 'black';
+            info1.style.boxShadow = '10px 5px 5px green';
+            info2.style.boxShadow = 'none';
+            if (player1.type == 'cpu') {
+                if (player1.difficulty == 'Normal') {
+                    min = Math.ceil(0);
+                    max = Math.floor(9);
+                    let randomSpot = Math.floor(Math.random() * (max - min) + min);
+                    setTimeout(() => {playRound(randomSpot);}, 1000);
+                }
+            }
         }
         else {
-            first.style.color = 'black';
-            second.style.color = 'red';
+            info1.style.boxShadow = 'none';
+            info2.style.boxShadow = '10px 5px 5px green';
+            if (player2.type == 'cpu') {
+                if (player2.difficulty == 'Normal') {
+                    min = Math.ceil(0);
+                    max = Math.floor(9);
+                    let randomSpot = Math.floor(Math.random() * (max - min) + min);
+                    setTimeout(() => {playRound(randomSpot);}, 1000);
+                }
+            }
         }
         
     }
@@ -123,37 +226,44 @@ const displayController = (() => {
             image.style.width = "42px";
             image.style.height = '42px';
         }
+        console.log(currentSquare);
         currentSquare.appendChild(image);
         
     }
 
     const winner = () => {
         if (playerOnesTurn) {
-            results.textContent = "Player 1 has won!";
+            info1.style.boxShadow = '10px 5px 5px green';
+            info2.style.boxShadow = '10px 5px 5px red';
+            player1.wins += 1;
+            score1.textContent = player1.wins;
+            results.textContent = (player1.name + " wins!");
         }
         else {
-            results.textContent = "Player 2 has won!";
+            info1.style.boxShadow = '10px 5px 5px red';
+            info2.style.boxShadow = '10px 5px 5px green';
+            player2.wins += 1;
+            score2.textContent = player2.wins;
+            results.textContent = (player2.name + " wins!");
         }
         gameOver = true;
-        first.style.color = 'black';
-        second.style.color = 'black';
     }
 
     const tie = () => {
         gameOver = true;
-        results.textContent = "This game was a draw.";
-        first.style.color = 'black';
-        second.style.color = 'black';
+        results.textContent = "Game ends in draw";
+        info1.style.boxShadow = '10px 5px 5px grey';
+        info2.style.boxShadow = '10px 5px 5px grey';
     }
 
     const changeTurn = () => {
         if (playerOnesTurn) {
-            first.style.color = 'red';
-            second.style.color = 'black';
+            info1.style.boxShadow = '10px 5px 5px green';
+            info2.style.boxShadow = 'none';
         }
         else {
-            first.style.color = 'black';
-            second.style.color = 'red';
+            info1.style.boxShadow = 'none';
+            info2.style.boxShadow = '10px 5px 5px green';
         }
     }
 
@@ -169,17 +279,11 @@ const displayController = (() => {
 })();
 
 function playRound (index) {
-    let first = document.getElementById("first");
-    let second = document.getElementById("second");
-    
+    console.log(index);
     if (playerOnesTurn) {
-        first.style.color = 'red';
-        second.style.color = 'black';
         gameBoard.draw(index, player1.symbol);
     }
     else {
-        first.style.color = 'black';
-        second.style.color = 'red';
         gameBoard.draw(index, player2.symbol);
     }
 
