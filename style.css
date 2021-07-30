@@ -1,6 +1,7 @@
 html {
     margin: 0;
     padding: 0;
+    font-family: 'Quicksand', sans-serif;
 }
 
 body {
@@ -8,17 +9,113 @@ body {
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    background-color: gainsboro;
+    background-color: rgb(43, 43, 43);
+    color: rgb(216, 216, 216)
 }
 
 #top {
     display: flex;
     flex-direction: column;
     align-items: center;
-    height: 150px;
+    justify-content: space-evenly;
+    height: 200px;
+    margin-top: 2em;
+    width: 100%;
 }
 
+#homeForm {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-evenly;
+    width: 700px;
+    height: 400px;
+}
 
+#play {
+    width: 500px;
+    height: 150px;
+    background-color:seagreen;
+    border: none;
+    color: rgb(216, 216, 216);
+    font-size: 40px;
+    border-radius: 100px;
+    transition: all 0.2s;
+}
+
+#play:hover {
+    font-size: 44px;
+    box-shadow: 0 0 5px black;
+}
+
+.text-settings {
+    height: 30px;
+    text-align: center;
+    padding: 0;
+    width: 100%;
+    color: rgb(216, 216, 216);
+    background-color: rgb(43, 43, 43);
+    outline: 0;
+    border: 0;
+    font-size: 20px;
+}
+
+.name-inputs {
+    height: 30px;
+    text-align: center;
+    padding: 0;
+    font-size: 20px;
+    outline: none;
+    border: none;
+    color: rgb(216, 216, 216);
+    background-color: rgb(43, 43, 43);
+}
+
+#lower-settings {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-evenly;
+    width: 700px;
+    height: 200px;
+}
+
+.lower-sections {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    width: 230px;
+    height: 150px;
+    border: none;
+    outline: none;
+
+}
+
+.type-settings {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-evenly;
+    border: none;
+    outline: none;
+    width: 100%;
+}
+
+.settings-buttons {
+    border: none;
+    outline: none;
+    width: 100px;
+    height: 40px;
+    border-radius: 20px;
+    transition: all 0.2s;
+    background-color: black;
+    color: rgb(216, 216, 216);
+}
+
+.settings-buttons:hover {
+    box-shadow: 0 0 5px gainsboro;
+}
 
 #main {
     display: flex;
@@ -29,12 +126,70 @@ body {
     width: 100%;
 }
 
+#gameButtonDiv {
+    display: flex;
+    flex-direction: row;
+    width: 40%;
+    align-items: center;
+    justify-content: space-evenly;
+}
+
+.game-buttons {
+    border: none;
+    outline: none;
+    width: 100px;
+    height: 40px;
+    border-radius: 20px;
+    background-color: black;
+    color: rgb(216, 216, 216);
+}
+
+.game-buttons:hover {
+    box-shadow: 0 0 5px gainsboro;
+}
+
 #board {
     width: 300px;
     height: 300px;
     display:grid;
     grid-template-columns: repeat(3, 1fr);
     grid-template-rows: repeat(3, 1fr);
+}
+
+.info {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    width: 280px;
+    height: 320px;
+    border-radius: 10px;
+}
+
+.info-names {
+    font-size: 22px;
+    padding-top: 10px;
+}
+
+.score-names {
+    padding: 10px 20px;
+    font-size: 80px;
+    border-radius: 10px;
+    margin-bottom: 25px;
+    font-family: 'Roboto Mono', monospace;
+}
+
+#results {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 50%;
+    height: 100px;
+    text-align: center;
+    color: white;
+    font-size: 22px;
+    transition: all 0.4s;
 }
 
 .squares {
@@ -51,7 +206,7 @@ body {
 }
 
 .squares:hover {
-    background-color: gainsboro;
+    background-color: rgb(146, 146, 146);
 }
 
 #square0 {

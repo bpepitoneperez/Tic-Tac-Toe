@@ -32,9 +32,11 @@ function createGameScreen () {
     info1.id = 'info1';
     info1.setAttribute('class', 'info');
     main.appendChild(info1);
+
     const board = document.createElement('container');
     board.id = 'board';
     main.appendChild(board);
+
     const info2 = document.createElement('div');
     info2.id = 'info2';
     info2.setAttribute('class', 'info');
@@ -43,12 +45,14 @@ function createGameScreen () {
     const gameButtonDiv = document.createElement('div');
     gameButtonDiv.id = 'gameButtonDiv';
     const newGameButton = document.createElement('button');
+    newGameButton.setAttribute('class', 'game-buttons');
     newGameButton.textContent = 'New Game';
     gameButtonDiv.appendChild(newGameButton);
     newGameButton.addEventListener ('click', function() {
         displayController.newGame();
     })
     const settingsButton = document.createElement('button');
+    settingsButton.setAttribute('class', 'game-buttons');
     settingsButton.textContent = "Settings";
     gameButtonDiv.appendChild(settingsButton);
     settingsButton.addEventListener('click', function() {
@@ -56,21 +60,30 @@ function createGameScreen () {
     })
     top.appendChild(gameButtonDiv);
 
-    const info1Name = document.createElement('h2');
+    const info1Name = document.createElement('div');
     info1Name.textContent = player1.name;
+    info1Name.setAttribute('class', 'info-names');
     info1.appendChild(info1Name);
     const score1 = document.createElement('div');
+    score1.setAttribute('class', 'score-names');
     score1.textContent = player1.wins;
     score1.id = 'score1';
     info1.appendChild(score1);
+    const empty1 = document.createElement('div');
+    info1.appendChild(empty1);
 
-    const info2Name = document.createElement('h2');
+    const info2Name = document.createElement('div');
     info2Name.textContent = player2.name;
+    info2Name.setAttribute('class', 'info-names');
     info2.appendChild(info2Name);
     const score2 = document.createElement('div');
+    score2.setAttribute('class', 'score-names');
     score2.textContent = player2.wins;
     score2.id = 'score2'
     info2.appendChild(score2);
+    const empty2 = document.createElement('div');
+    info2.appendChild(empty2);
+
     displayController.newGame();
 }
 
@@ -87,13 +100,16 @@ function createHomeScreen () {
     homeSettings.setAttribute('id', 'homeForm');
     const playButton = document.createElement('input');
     playButton.type = 'submit';
-    playButton.value = 'Play!';
+    playButton.value = 'Play';
     playButton.setAttribute('id', 'play');
     homeSettings.appendChild(playButton);
     const settings = document.createElement('div');
+    settings.id='lower-settings';
 
     const p1Settings = document.createElement('div');
+    p1Settings.setAttribute('class', 'lower-sections');
     const p1NameInput = document.createElement('input');
+    p1NameInput.setAttribute('class', 'text-settings');
     p1NameInput.setAttribute('class', 'name-inputs');
     p1NameInput.setAttribute('id', "player1-name-input");
     p1NameInput.setAttribute('type', 'text');
@@ -103,85 +119,110 @@ function createHomeScreen () {
     const p1TypeSettings = document.createElement('fieldset');
     p1TypeSettings.setAttribute('class', 'type-settings');
     const p1HumanButton = document.createElement('button');
+    p1HumanButton.setAttribute('class', "settings-buttons");
     p1HumanButton.setAttribute('id', 'p1HumanButton');
     p1HumanButton.type = 'button';
     p1HumanButton.textContent = 'Human';
-    p1HumanButton.style.outline = 'solid';
+    p1HumanButton.style.boxShadow = '0 0 10px gainsboro';
     const p1CpuButton = document.createElement('button');
+    p1CpuButton.setAttribute('class', "settings-buttons");
     p1CpuButton.type = 'button';
     p1CpuButton.textContent = 'CPU';
     p1TypeSettings.appendChild(p1HumanButton);
     p1TypeSettings.appendChild(p1CpuButton);
     p1Settings.appendChild(p1TypeSettings);
     const p1DiffSettings = document.createElement('fieldset');
+    p1DiffSettings.setAttribute('class', 'type-settings');
     const p1Normal = document.createElement('button');
+    p1Normal.setAttribute('class', "settings-buttons");
     p1Normal.type = 'button';
     p1Normal.textContent = 'Normal';
     const p1Impossible = document.createElement('button');
+    p1Impossible.setAttribute('class', "settings-buttons");
     p1Impossible.type = 'button';
     p1Impossible.textContent = 'Impossible';
     p1DiffSettings.appendChild(p1Normal);
     p1DiffSettings.appendChild(p1Impossible);
     p1HumanButton.addEventListener('click', function() {
-        p1HumanButton.style.outline = 'solid';
-        p1CpuButton.style.outline = 'none';
-        p1Normal.style.outline = 'none';
-        p1Impossible.style.outline = 'none';
+        p1HumanButton.style.boxShadow = '0 0 10px gainsboro';
+        p1Normal.style.boxShadow = 'none';
+        p1CpuButton.style.boxShadow = 'none';
+        p1Impossible.style.boxShadow = 'none';
         p1Type = 'human';
     });
     p1CpuButton.addEventListener('click', function() {
-        p1CpuButton.style.outline = 'solid';
-        p1HumanButton.style.outline = 'none';
+        p1CpuButton.style.boxShadow = '0 0 10px gainsboro';
+        p1HumanButton.style.boxShadow = 'none';
         if (p1Diff == 'Normal') {
-            p1Normal.style.outline = 'solid';
+            p1Normal.style.boxShadow = '0 0 10px gainsboro';
         }
         else {
-            p1Impossible.style.outline = 'solid';
+            p1Impossible.style.boxShadow = '0 0 10px gainsboro';
         }
         p1Type = 'cpu'
     });
     p1Normal.addEventListener('click', function() {
-        p1Normal.style.outline = 'solid';
-        p1HumanButton.style.outline = 'none';
-        p1CpuButton.style.outline = 'solid';
-        p1Impossible.style.outline = 'none';
+        p1Impossible.style.boxShadow = 'none';
+        p1Normal.style.boxShadow = '0 0 10px gainsboro';
+        p1CpuButton.style.boxShadow = '0 0 10px gainsboro';
+        p1HumanButton.style.boxShadow = 'none';
         p1Diff = 'Normal';
     });
     p1Impossible.addEventListener('click', function() {
-        p1Normal.style.outline = 'none';
-        p1HumanButton.style.outline = 'none';
-        p1CpuButton.style.outline = 'solid';
-        p1Impossible.style.outline = 'solid';
+        p1Impossible.style.boxShadow = '0 0 10px gainsboro';
+        p1Normal.style.boxShadow = 'none';
+        p1CpuButton.style.boxShadow = '0 0 10px gainsboro';
+        p1HumanButton.style.boxShadow = 'none';
         p1Diff = 'Impossible';
     });
     p1Settings.appendChild(p1DiffSettings);
     settings.appendChild(p1Settings);
 
-    const gameSettings = document.createElement('fieldset');
-    const gameSettingsText = document.createElement('p');
-    gameSettingsText.textContent = 'Game Mode';
-    gameSettings.appendChild(gameSettingsText);
+    const midSettings = document.createElement('div');
+    midSettings.setAttribute('class', 'lower-sections');
+    const gameSettings1 = document.createElement('fieldset');
+    gameSettings1.textContent = 'Game Mode';
+    gameSettings1.setAttribute('class', 'text-settings');
+    const gameSettings2 = document.createElement('fieldset');
+    gameSettings2.setAttribute('class', 'type-settings');
     const defaultButton = document.createElement('button');
+    defaultButton.setAttribute('class', "settings-buttons");
     defaultButton.type = 'button';
     defaultButton.textContent = 'Default';
-    defaultButton.style.outline = 'solid';
-    gameSettings.appendChild(defaultButton);
+    defaultButton.style.boxShadow = '0 0 10px gainsboro';
+    gameSettings2.appendChild(defaultButton);
+    const gameSettings3 = document.createElement('fieldset');
+    gameSettings3.setAttribute('class', 'type-settings');
     const advancedButton = document.createElement('button');
+    advancedButton.setAttribute('class', "settings-buttons");
     advancedButton.type = 'button';
     advancedButton.textContent = 'Advanced';
-    gameSettings.appendChild(advancedButton);
+    gameSettings3.appendChild(advancedButton);
     defaultButton.addEventListener('click', function() {
-        advancedButton.style.outline = 'none';
+        defaultButton.style.boxShadow = '0 0 10px gainsboro';
+        advancedButton.style.boxShadow = 'none';
         gameMode = 'default';
+        if (document.getElementById('advanced-info') != null) {
+            let aInfo = document.getElementById('advanced-info');
+            body.removeChild(aInfo);
+        }
     });
     advancedButton.addEventListener('click', function() {
-        advancedButton.style.outline = 'solid';
-        advancedButton.style.outlineColor = 'red';
+        advancedButton.style.boxShadow = '0 0 10px red';
+        const advancedInfo = document.createElement('div');
+        advancedInfo.id = 'advanced-info';
+        advancedInfo.textContent = "Advanced Currently Unavailable";
+        body.appendChild(advancedInfo);
     });
-    settings.appendChild(gameSettings);
+    midSettings.appendChild(gameSettings1);
+    midSettings.appendChild(gameSettings2);
+    midSettings.appendChild(gameSettings3);
+    settings.appendChild(midSettings);
 
     const p2Settings = document.createElement('div');
+    p2Settings.setAttribute('class', 'lower-sections');
     const p2NameInput = document.createElement('input');
+    p2NameInput.setAttribute('class', 'text-settings');
     p2NameInput.setAttribute('class', 'name-inputs');
     p2NameInput.setAttribute('id', "player2-name-input");
     p2NameInput.setAttribute('type', 'text');
@@ -191,54 +232,60 @@ function createHomeScreen () {
     const p2TypeSettings = document.createElement('fieldset');
     p2TypeSettings.setAttribute('class', 'type-settings');
     const p2HumanButton = document.createElement('button');
+    p2HumanButton.setAttribute('class', "settings-buttons");
     p2HumanButton.type = 'button';
     p2HumanButton.textContent = 'Human';
     const p2CpuButton = document.createElement('button');
+    p2CpuButton.setAttribute('class', "settings-buttons");
     p2CpuButton.type = 'button';
     p2CpuButton.textContent = 'CPU';
-    p2CpuButton.style.outline = 'solid';
+    p2CpuButton.style.boxShadow = '0 0 10px gainsboro';
     p2TypeSettings.appendChild(p2HumanButton);
     p2TypeSettings.appendChild(p2CpuButton);
     p2Settings.appendChild(p2TypeSettings);
     const p2DiffSettings = document.createElement('fieldset');
+    p2DiffSettings.setAttribute('class', 'type-settings');
     const p2Normal = document.createElement('button');
+    p2Normal.setAttribute('class', "settings-buttons");
     p2Normal.type = 'button';
     p2Normal.textContent = 'Normal';
+    p2Normal.style.boxShadow = '0 0 10px gainsboro';
     const p2Impossible = document.createElement('button');
+    p2Impossible.setAttribute('class', "settings-buttons");
     p2Impossible.type = 'button';
     p2Impossible.textContent = 'Impossible';
     p2DiffSettings.appendChild(p2Normal);
     p2DiffSettings.appendChild(p2Impossible);
     p2HumanButton.addEventListener('click', function() {
-        p2HumanButton.style.outline = 'solid';
-        p2CpuButton.style.outline = 'none';
-        p2Normal.style.outline = 'none';
-        p2Impossible.style.outline = 'none';
+        p2HumanButton.style.boxShadow = '0 0 10px gainsboro';
+        p2Normal.style.boxShadow = 'none';
+        p2CpuButton.style.boxShadow = 'none';
+        p2Impossible.style.boxShadow = 'none';
         p2Type = 'human';
     });
     p2CpuButton.addEventListener('click', function() {
-        p2CpuButton.style.outline = 'solid';
-        p2HumanButton.style.outline = 'none';
+        p2CpuButton.style.boxShadow = '0 0 10px gainsboro';
+        p2HumanButton.style.boxShadow = '0 0 10px none';
         if (p2Diff == 'Normal') {
-            p2Normal.style.outline = 'solid';
+            p2Normal.style.boxShadow = '0 0 10px gainsboro';
         }
         else {
-            p2Impossible.style.outline = 'solid';
+            p2Impossible.style.boxShadow = '0 0 10px gainsboro';
         }
         p2Type = "cpu";
     });
     p2Normal.addEventListener('click', function() {
-        p2HumanButton.style.outline = 'none';
-        p2CpuButton.style.outline = 'solid';
-        p2Normal.style.outline = 'solid';
-        p2Impossible.style.outline = 'none';
+        p2HumanButton.style.boxShadow = 'none';
+        p2Normal.style.boxShadow = '0 0 10px gainsboro';
+        p2CpuButton.style.boxShadow = '0 0 10px gainsboro';
+        p2Impossible.style.boxShadow = 'none';
         p2Diff = 'Normal';
     });
     p2Impossible.addEventListener('click', function() {
-        p2HumanButton.style.outline = 'none';
-        p2CpuButton.style.outline = 'solid';
-        p2Normal.style.outline = 'none';
-        p2Impossible.style.outline = 'solid';
+        p2HumanButton.style.boxShadow = 'none';
+        p2Normal.style.boxShadow = 'none';
+        p2CpuButton.style.boxShadow = '0 0 10px gainsboro';
+        p2Impossible.style.boxShadow = '0 0 10px gainsboro';
         p2Diff = 'Impossible';
     });
     p2Settings.appendChild(p2DiffSettings);
@@ -307,11 +354,11 @@ const gameBoard = (() => {
                         while (board[randomSpot] != null) {
                             randomSpot = Math.floor(Math.random() * (max - min) + min);
                         }
-                        setTimeout(() => {playRound(randomSpot);}, 1000);
+                        setTimeout(() => {playRound(randomSpot);}, 800);
                     }
                     else {
                         let bestMove = findBestMove(board);
-                        setTimeout(() => {playRound(bestMove);}, 1000);
+                        setTimeout(() => {playRound(bestMove);}, 800);
                     }
                 }
                 else if (!playerOnesTurn && player2.type == 'cpu') {
@@ -322,11 +369,11 @@ const gameBoard = (() => {
                         while (board[randomSpot] != null) {
                             randomSpot = Math.floor(Math.random() * (max - min) + min);
                         }
-                        setTimeout(() => {playRound(randomSpot);}, 1000);
+                        setTimeout(() => {playRound(randomSpot);}, 800);
                     }
                     else {
                         let bestMove = findBestMove(board);
-                        setTimeout(() => {playRound(bestMove);}, 1000);
+                        setTimeout(() => {playRound(bestMove);}, 800);
                     }
                 }
             }
@@ -627,6 +674,7 @@ const displayController = (() => {
             let square = document.createElement('div');
             square.setAttribute('class', 'squares');
             square.setAttribute('id', ("square" + i));
+            square.style.transition = 'all 0.2s';
             square.addEventListener('click', function() {
                 if (gameStart) {
                     if (playerOnesTurn && player1.type == 'human') {
@@ -652,8 +700,8 @@ const displayController = (() => {
         gameBoard.clear();
         create();
         if (playerOnesTurn) {
-            info1.style.boxShadow = '10px 5px 5px green';
-            info2.style.boxShadow = 'none';
+            info1.style.boxShadow = '0 0 20px white';
+            info2.style.boxShadow = '0 0 5px grey';
             if (player1.type == 'cpu') {
                 if (player1.difficulty == 'Normal') {
                     min = Math.ceil(0);
@@ -668,8 +716,8 @@ const displayController = (() => {
             }
         }
         else {
-            info1.style.boxShadow = 'none';
-            info2.style.boxShadow = '10px 5px 5px green';
+            info1.style.boxShadow = '0 0 5px grey';
+            info2.style.boxShadow = '0 0 20px white';
             if (player2.type == 'cpu') {
                 if (player2.difficulty == 'Normal') {
                     min = Math.ceil(0);
@@ -690,10 +738,10 @@ const displayController = (() => {
         let currentSquare = document.getElementById(("square" + id));
         let image = document.createElement('img');
         if (symbol == "x") {
-            image.src = "x.png";
+            image.src = "xwhite.png";
         }
         else {
-            image.src = "o.png";
+            image.src = "owhite.png";
             image.style.width = "42px";
             image.style.height = '42px';
         }
@@ -708,15 +756,15 @@ const displayController = (() => {
         const score1 = document.querySelector('#score1');
         const score2 = document.querySelector('#score2');
         if (playerOnesTurn) {
-            info1.style.boxShadow = '10px 5px 5px green';
-            info2.style.boxShadow = '10px 5px 5px red';
+            info1.style.boxShadow = '0 0 20px #58d258';
+            info2.style.boxShadow = '0 0 20px #ff6666';
             player1.wins += 1;
             score1.textContent = player1.wins;
             results.textContent = (player1.name + " wins!");
         }
         else {
-            info1.style.boxShadow = '10px 5px 5px red';
-            info2.style.boxShadow = '10px 5px 5px green';
+            info2.style.boxShadow = '0 0 20px #58d258';
+            info1.style.boxShadow = '0 0 20px #ff6666';
             player2.wins += 1;
             score2.textContent = player2.wins;
             results.textContent = (player2.name + " wins!");
@@ -730,20 +778,20 @@ const displayController = (() => {
         const info2 = document.querySelector('#info2');
         gameOver = true;
         results.textContent = "Game ends in draw";
-        info1.style.boxShadow = '10px 5px 5px grey';
-        info2.style.boxShadow = '10px 5px 5px grey';
+        info1.style.boxShadow = '0 0 20px gainsboro';
+        info2.style.boxShadow = '0 0 20px gainsboro';
     }
 
     const changeTurn = () => {
         const info1 = document.getElementById('info1');
         const info2 = document.querySelector('#info2');
         if (playerOnesTurn) {
-            info1.style.boxShadow = '10px 5px 5px green';
-            info2.style.boxShadow = 'none';
+            info1.style.boxShadow = '0 0 20px white';
+            info2.style.boxShadow = '0 0 5px grey';
         }
         else {
-            info1.style.boxShadow = 'none';
-            info2.style.boxShadow = '10px 5px 5px green';
+            info2.style.boxShadow = '0 0 20px white';
+            info1.style.boxShadow = '0 0 5px grey';
         }
     }
 
