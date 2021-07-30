@@ -237,3 +237,18 @@ body {
     border-right: 0;
     border-bottom: 0;
 }
+
+footer {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: end;
+    width: 100%;
+    position: fixed;
+    bottom: 0;
+}
+
+#github {
+    width: 25px;
+    height: 25px;
+}
