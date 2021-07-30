@@ -87,14 +87,7 @@ function createGameScreen () {
     displayController.newGame();
 }
 
-function createHomeScreen () {
-    let p1Name = "Player 1";
-    let p2Name = "Player 2";
-    let p1Type = "human";
-    let p2Type = "cpu";
-    let p1Diff = "Normal";
-    let p2Diff = "Normal";
-    let gameMode = "default";
+function createHomeScreen (p1Name, p2Name, p1Type, p2Type, p1Diff, p2Diff, gameMode) {
 
     const homeSettings = document.createElement('form');
     homeSettings.setAttribute('id', 'homeForm');
@@ -113,7 +106,7 @@ function createHomeScreen () {
     p1NameInput.setAttribute('class', 'name-inputs');
     p1NameInput.setAttribute('id', "player1-name-input");
     p1NameInput.setAttribute('type', 'text');
-    p1NameInput.setAttribute('value', 'Player 1');
+    p1NameInput.setAttribute('value', p1Name);
     p1Settings.appendChild(p1NameInput);
 
     const p1TypeSettings = document.createElement('fieldset');
@@ -144,6 +137,7 @@ function createHomeScreen () {
     p1DiffSettings.appendChild(p1Normal);
     p1DiffSettings.appendChild(p1Impossible);
     p1HumanButton.addEventListener('click', function() {
+        p1NameInput.setAttribute('value', 'Player 1');
         p1HumanButton.style.boxShadow = '0 0 10px gainsboro';
         p1Normal.style.boxShadow = 'none';
         p1CpuButton.style.boxShadow = 'none';
@@ -154,14 +148,17 @@ function createHomeScreen () {
         p1CpuButton.style.boxShadow = '0 0 10px gainsboro';
         p1HumanButton.style.boxShadow = 'none';
         if (p1Diff == 'Normal') {
+            p1NameInput.setAttribute('value', 'CPU (Normal)');
             p1Normal.style.boxShadow = '0 0 10px gainsboro';
         }
         else {
+            p1NameInput.setAttribute('value', 'CPU (Impossible)');
             p1Impossible.style.boxShadow = '0 0 10px gainsboro';
         }
         p1Type = 'cpu'
     });
     p1Normal.addEventListener('click', function() {
+        p1NameInput.setAttribute('value', 'CPU (Normal)');
         p1Impossible.style.boxShadow = 'none';
         p1Normal.style.boxShadow = '0 0 10px gainsboro';
         p1CpuButton.style.boxShadow = '0 0 10px gainsboro';
@@ -169,6 +166,7 @@ function createHomeScreen () {
         p1Diff = 'Normal';
     });
     p1Impossible.addEventListener('click', function() {
+        p1NameInput.setAttribute('value', 'CPU (Impossible)');
         p1Impossible.style.boxShadow = '0 0 10px gainsboro';
         p1Normal.style.boxShadow = 'none';
         p1CpuButton.style.boxShadow = '0 0 10px gainsboro';
@@ -226,7 +224,7 @@ function createHomeScreen () {
     p2NameInput.setAttribute('class', 'name-inputs');
     p2NameInput.setAttribute('id', "player2-name-input");
     p2NameInput.setAttribute('type', 'text');
-    p2NameInput.setAttribute('value', 'Player 2');
+    p2NameInput.setAttribute('value', p2Name);
     p2Settings.appendChild(p2NameInput);
 
     const p2TypeSettings = document.createElement('fieldset');
@@ -257,6 +255,7 @@ function createHomeScreen () {
     p2DiffSettings.appendChild(p2Normal);
     p2DiffSettings.appendChild(p2Impossible);
     p2HumanButton.addEventListener('click', function() {
+        p2NameInput.setAttribute('value', 'Player 2');
         p2HumanButton.style.boxShadow = '0 0 10px gainsboro';
         p2Normal.style.boxShadow = 'none';
         p2CpuButton.style.boxShadow = 'none';
@@ -267,14 +266,17 @@ function createHomeScreen () {
         p2CpuButton.style.boxShadow = '0 0 10px gainsboro';
         p2HumanButton.style.boxShadow = '0 0 10px none';
         if (p2Diff == 'Normal') {
+            p2NameInput.setAttribute('value', 'CPU (Normal)');
             p2Normal.style.boxShadow = '0 0 10px gainsboro';
         }
         else {
+            p2NameInput.setAttribute('value', 'CPU (Impossible)');
             p2Impossible.style.boxShadow = '0 0 10px gainsboro';
         }
         p2Type = "cpu";
     });
     p2Normal.addEventListener('click', function() {
+        p2NameInput.setAttribute('value', 'CPU (Normal)');
         p2HumanButton.style.boxShadow = 'none';
         p2Normal.style.boxShadow = '0 0 10px gainsboro';
         p2CpuButton.style.boxShadow = '0 0 10px gainsboro';
@@ -282,6 +284,7 @@ function createHomeScreen () {
         p2Diff = 'Normal';
     });
     p2Impossible.addEventListener('click', function() {
+        p2NameInput.setAttribute('value', 'CPU (Impossible)');
         p2HumanButton.style.boxShadow = 'none';
         p2Normal.style.boxShadow = 'none';
         p2CpuButton.style.boxShadow = '0 0 10px gainsboro';
@@ -332,7 +335,9 @@ const backToHome = () => {
     body.removeChild(main);
     body.removeChild(results);
     top.removeChild(buttons);
-    createHomeScreen();
+    player1.wins = 0;
+    player2.wins = 0;
+    createHomeScreen(player1.name, player2.name, player1.type, player2.type, player1.difficulty, player2.difficulty, "default");
 }
 
 
@@ -816,5 +821,4 @@ function playRound (index) {
 
 }
 
-createHomeScreen();
-
+createHomeScreen("Player 1", "Player 2", "human", "cpu", "Normal", "Normal", "default");
