@@ -45,7 +45,7 @@ body {
 
 #play:hover {
     font-size: 44px;
-    box-shadow: 0 0 5px black;
+    box-shadow: 0 0 5px gainsboro;
 }
 
 .text-settings {
